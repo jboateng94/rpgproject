@@ -26,12 +26,7 @@ function updateMessage(arg) {
 
 function buttonInitialisers() {
 	fightTest.on('click', playerAttack);
-	guardTest.on('click', function() {
-		if(checkPlayerGuard === false){
-			checkPlayerGuard = true;
-			enemyMove();
-		}
-	});
+	guardTest.on('click', playerGuard);
 }
 
 function buttonTerminators() {
@@ -51,16 +46,23 @@ function playerAttack(){
 	if(enemyHP <= 0){
 		alert("You win!")
 	}
-	updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
+	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("Enemy health:"+enemyHP);
 	enemyMove();
+}
+
+function playerGuard() {
+	if(checkPlayerGuard === false){
+		checkPlayerGuard = true;
+		enemyMove();
+	}
 }
 
 
 function enemyMove() {
 	buttonTerminators();
 	if(checkPlayerGuard){
-		enemyDmg = Math.ceil(enemyDmg * 0.7);
+		enemyDmg = Math.ceil(enemyDmg * 0.4);
 	}else{
 		enemyDmg = 10;
 	}
