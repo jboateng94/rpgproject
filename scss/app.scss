@@ -54,5 +54,13 @@ body{
 	text-align: center;
 	#battlemenu{
 		border: 1px solid black;
+		#face-buttons{
+			//visibility: hidden;
+			display: block;
+		}
+
+		#fight-menu{
+			display: none;
+		}
 	}
 }
