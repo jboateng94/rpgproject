@@ -55,8 +55,9 @@ body{
 	#battlemenu{
 		border: 1px solid black;
 		#face-buttons{
-			//visibility: hidden;
-			display: block;
+			
+			//change to none when going to sub-menu
+			display: inline;
 		}
 
 		#fight-menu{
