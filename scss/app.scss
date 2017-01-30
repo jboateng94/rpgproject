@@ -49,3 +49,10 @@
 
 @include motion-ui-transitions;
 @include motion-ui-animations;
+
+body{
+	text-align: center;
+	#battlemenu{
+		border: 1px solid black;
+	}
+}
