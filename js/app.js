@@ -155,13 +155,7 @@ function playerItem() {
 		for (var i of playerInventory) {
 			var index = playerInventory.indexOf(i);
 			if(i === arg){
-				if(i === 'p'){
-					playerHP += 10;
-					updateMessage('Used 1 potion, restored 10HP');
-					console.log("Used 1 potion, restored 10HP, player health: " +playerHP);
-					playerInventory.splice(index,1);
-					break;
-				}else if(i === 'e'){
+				 if(i === 'e'){
 					playerMP += 10;
 					updateMessage('Used 1 ether, restored 10MP');
 					console.log("Used 1 ether, restored 10MP, player magic: " +playerMP);
