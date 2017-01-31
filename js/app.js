@@ -15,6 +15,7 @@ var messageBox = $("textarea#messagebox");
 
 var fightTest = $( "#fight" );
 var guardTest = $( "#guard" );
+var magicTest = $( "#magic" );
 
 //var playerMagicOptions = {"Glitch slap":20, "Oh damn":30};
 
@@ -27,11 +28,13 @@ function updateMessage(arg) {
 function buttonInitialisers() {
 	fightTest.on('click', playerAttack);
 	guardTest.on('click', playerGuard);
+	magicTest.on('click', playerMagic);
 }
 
 function buttonTerminators() {
 	fightTest.off('click');
 	guardTest.off('click');
+	magicTest.off('click');
 }
 
 updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
@@ -58,6 +61,23 @@ function playerGuard() {
 	}
 }
 
+function playerMagic() {
+	var firsMenu = $('#first-menu');
+	firsMenu.css('display','none');
+
+	var magicMenu = $('#magic-menu');
+	magicMenu.css('display','inline');
+
+	$('#glitch-slap').on('click',function(){
+		playerDmg = 30;
+		playerMP --10;
+	});
+
+	$('#ora').on('click',function(){
+		playerDmg = 30;
+		playerMP --10;
+	});
+}
 
 function enemyMove() {
 	buttonTerminators();

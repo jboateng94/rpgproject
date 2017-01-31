@@ -54,13 +54,14 @@ body{
 	text-align: center;
 	#battlemenu{
 		//border: 1px solid black;
-		#face-buttons{
+		#first-menu{
 
 			//change to none when going to sub-menu
+			//set to inline when going back
 			display: inline;
 		}
 
-		#fight-menu{
+		#magic-menu{
 			display: none;
 		}
 	}
