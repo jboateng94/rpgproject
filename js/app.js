@@ -37,6 +37,12 @@ function buttonTerminators() {
 	magicTest.off('click');
 }
 
+function variableReset() {
+	playerDmg = 10;
+	checkPlayerGuard = false;
+	enemyDmg = 10;
+}
+
 updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
 
 
@@ -46,9 +52,7 @@ buttonInitialisers();
 //Player physical attack logic
 function playerAttack(){
 	enemyHP -= playerDmg;
-	if(enemyHP <= 0){
-		alert("You win!")
-	}
+	
 	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("Enemy health:"+enemyHP);
 	enemyMove();
@@ -61,6 +65,9 @@ function playerGuard() {
 	}
 }
 
+// Adds magic system, allows player to access magic submenu
+// and access spells, or go back to the main battle menu
+
 function playerMagic() {
 	var firsMenu = $('#first-menu');
 	firsMenu.css('display','none');
@@ -68,16 +75,36 @@ function playerMagic() {
 	var magicMenu = $('#magic-menu');
 	magicMenu.css('display','inline');
 
-	$('#glitch-slap').on('click',function(){
+	$('a#glitch-slap').on('click',function(){
 		playerDmg = 30;
-		playerMP --10;
+		playerMP  = playerMP-20;
+		enemyHP -= playerDmg;
+		updateMessage("Player health: "+playerHP+
+			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
+		console.log("Player health:"+playerHP);
+		magicMenu.css('display','none');
+		firsMenu.css('display','inline');
+		winLogic();
+		enemyMove();
 	});
 
-	$('#ora').on('click',function(){
-		playerDmg = 30;
-		playerMP --10;
+	$('a#ora').on('click',function(){
+		playerDmg = 20;
+		playerMP = playerMP-10;
+		enemyHP -= playerDmg;
+		updateMessage("Player health: "+playerHP+
+			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
+		console.log("Player health:"+playerHP);
+		magicMenu.css('display','none');
+		firsMenu.css('display','inline');
+		winLogic();
+		enemyMove();
 	});
+
+	
 }
+
+	
 
 function enemyMove() {
 	buttonTerminators();
@@ -87,12 +114,22 @@ function enemyMove() {
 		enemyDmg = 10;
 	}
 	playerHP -= enemyDmg;
-	checkPlayerGuard = false;
-	if(playerHP <= 0){
-		alert("You lose")
-	}
+	
 	
 	updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
 	console.log("Player health:"+playerHP);
+	variableReset();
 	buttonInitialisers();
+}
+
+function winLogic() {
+	if(enemyHP <= 0){
+		alert("You win!");
+		return true;
+	}else if(playerHP <= 0){
+		alert("You lose");
+		return true
+	}else{
+		return false;
+	}
 }
