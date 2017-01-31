@@ -88,11 +88,7 @@ function playerMagic() {
 		playerMP  = playerMP-20;
 		enemyHP -= playerDmg;
 		winLogic();
-		updateMessage("Player health: "+playerHP+
-			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-		console.log("Player health:"+playerHP);
-		magicMenu.css('display','none');
-		firstMenu.css('display','inline');
+		magicReset();
 		
 		enemyMove();
 	});
@@ -102,11 +98,7 @@ function playerMagic() {
 		playerMP = playerMP-10;
 		enemyHP -= playerDmg;
 		winLogic();
-		updateMessage("Player health: "+playerHP+
-			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-		console.log("Player health:"+playerHP);
-		magicMenu.css('display','none');
-		firstMenu.css('display','inline');
+		magicReset();
 		enemyMove();
 	});
 
@@ -114,6 +106,14 @@ function playerMagic() {
 		magicMenu.css('display','none');
 		firstMenu.css('display','inline');
 	});
+}
+
+function magicReset() {
+	updateMessage("Player health: "+playerHP+
+		"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
+	console.log("Player health:"+playerHP);
+	magicMenu.css('display','none');
+	firstMenu.css('display','inline');
 }
 
 function playerItem() {
