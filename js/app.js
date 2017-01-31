@@ -5,6 +5,8 @@ var playerHP = 100;
 var playerMP = 100;
 var playerDmg = 10;
 var checkPlayerGuard = false;
+var playerInventory = ['p','e'];
+
 
 var enemyHP = 100;
 var enemyMP = 50;
@@ -16,6 +18,9 @@ var messageBox = $("textarea#messagebox");
 var fightTest = $( "#fight" );
 var guardTest = $( "#guard" );
 var magicTest = $( "#magic" );
+var itemTest = $( "#item" );
+
+var firstMenu = $('#first-menu');
 
 //var playerMagicOptions = {"Glitch slap":20, "Oh damn":30};
 
@@ -29,12 +34,14 @@ function buttonInitialisers() {
 	fightTest.on('click', playerAttack);
 	guardTest.on('click', playerGuard);
 	magicTest.on('click', playerMagic);
+	itemTest.on('click', playerItem);
 }
 
 function buttonTerminators() {
 	fightTest.off('click');
 	guardTest.off('click');
 	magicTest.off('click');
+	itemTest.off('click');
 }
 
 function variableReset() {
@@ -52,7 +59,7 @@ buttonInitialisers();
 //Player physical attack logic
 function playerAttack(){
 	enemyHP -= playerDmg;
-	
+	winLogic();
 	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("Enemy health:"+enemyHP);
 	enemyMove();
@@ -63,14 +70,15 @@ function playerGuard() {
 		checkPlayerGuard = true;
 		enemyMove();
 	}
+
 }
 
 // Adds magic system, allows player to access magic submenu
 // and access spells, or go back to the main battle menu
 
 function playerMagic() {
-	var firsMenu = $('#first-menu');
-	firsMenu.css('display','none');
+	
+	firstMenu.css('display','none');
 
 	var magicMenu = $('#magic-menu');
 	magicMenu.css('display','inline');
@@ -79,12 +87,13 @@ function playerMagic() {
 		playerDmg = 30;
 		playerMP  = playerMP-20;
 		enemyHP -= playerDmg;
+		winLogic();
 		updateMessage("Player health: "+playerHP+
 			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
 		console.log("Player health:"+playerHP);
 		magicMenu.css('display','none');
-		firsMenu.css('display','inline');
-		winLogic();
+		firstMenu.css('display','inline');
+		
 		enemyMove();
 	});
 
@@ -92,12 +101,12 @@ function playerMagic() {
 		playerDmg = 20;
 		playerMP = playerMP-10;
 		enemyHP -= playerDmg;
+		winLogic();
 		updateMessage("Player health: "+playerHP+
 			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
 		console.log("Player health:"+playerHP);
 		magicMenu.css('display','none');
-		firsMenu.css('display','inline');
-		winLogic();
+		firstMenu.css('display','inline');
 		enemyMove();
 	});
 
@@ -105,6 +114,14 @@ function playerMagic() {
 		magicMenu.css('display','none');
 		firstMenu.css('display','inline');
 	});
+}
+
+function playerItem() {
+
+	firstMenu.css('display','none');
+
+	var itemMenu = $('#item-menu');
+	itemMenu.css('display','inline');
 }
 
 	
@@ -117,8 +134,7 @@ function enemyMove() {
 		enemyDmg = 10;
 	}
 	playerHP -= enemyDmg;
-	
-	
+	winLogic();
 	updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
 	console.log("Player health:"+playerHP);
 	variableReset();
@@ -128,11 +144,20 @@ function enemyMove() {
 function winLogic() {
 	if(enemyHP <= 0){
 		alert("You win!");
-		return true;
+		endValues();
+		// return true;
 	}else if(playerHP <= 0){
 		alert("You lose");
-		return true
+		endValues();
+		// return true
 	}else{
-		return false;
+		// return false;
 	}
+}
+
+function endValues() {
+	playerHP = 0;
+	playerMP = 0;
+	enemyHP = 0;
+	enemyMP =0;
 }
