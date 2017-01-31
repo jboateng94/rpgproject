@@ -165,9 +165,9 @@ function playerItem() {
 					playerMP += 10;
 					updateMessage('Used 1 ether, restored 10MP');
 					console.log("Used 1 ether, restored 10MP, player magic: " +playerMP);
-				}	playerInventory.splice(index,1);
-				break;
-				
+					playerInventory.splice(index,1);
+					break;
+				}
 			}else{
 				updateMessage('None left...');
 				console.log('No '+arg+' available...');
