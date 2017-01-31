@@ -8,7 +8,7 @@ var checkPlayerGuard = false;
 var playerInventory = ['p','e','p','e','e'];
 
 
-var enemyHP = 100;
+var enemyHP = 1000;
 var enemyMP = 50;
 
 var enemyDmg = 10;
@@ -61,7 +61,7 @@ function playerAttack(){
 	enemyHP -= playerDmg;
 	winLogic();
 	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
-	console.log("Enemy health:"+enemyHP);
+	console.log("player attack Enemy health:"+enemyHP);
 	enemyMove();
 }
 
@@ -86,7 +86,7 @@ function playerMagic() {
 	function magicReset() {
 		updateMessage("Player health: "+playerHP+
 			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-		console.log("Player health:"+playerHP);
+		console.log("magicResist Player health:"+playerHP);
 		magicMenu.css('display','none');
 		firstMenu.css('display','inline');
 	}
@@ -123,25 +123,7 @@ function playerItem() {
 	var itemMenu = $('#item-menu');
 	itemMenu.css('display','inline');
 
-	function itemReset() {
-		itemMenu.css('display','none');
-		firstMenu.css('display','inline');
-	}
-
 	$('#potion').on('click', () =>{
-		// for (var i of playerInventory) {
-		// 	var index = playerInventory.indexOf(i);
-		// 	if(i === 'p'){
-		// 		playerHP += 10;
-		// 		updateMessage('Used 1 potion, restored 10HP');
-		// 		console.log("Used 1 potion, restored 10HP, player health: " +playerHP)
-		// 		playerInventory.splice(index,1);
-		// 		break;
-		// 	}else{
-		// 		updateMessage('No potions available...');
-		// 		console.log('No potions available...');
-		// 	}
-		// }
 		inventoryCheck('p');
 		itemReset();
 	});
@@ -151,28 +133,44 @@ function playerItem() {
 		itemReset();
 	});
 
+	$('a#item-back').on('click',function() {
+		itemReset();
+	});
+
+	function itemReset() {
+		itemMenu.css('display','none');
+		firstMenu.css('display','inline');
+	}
+
 	function inventoryCheck(arg) {
 		for (var i of playerInventory) {
 			var index = playerInventory.indexOf(i);
 			if(i === arg){
-				 if(i === 'e'){
+				if(i === 'p'){
+					playerHP += 10;
+					updateMessage('Used 1 potion, restored 10HP');
+					console.log("potion use Used 1 potion, restored 10HP, player health: " +playerHP);
+					playerInventory.splice(index,1);
+					break;
+				}if(i === 'e'){
 					playerMP += 10;
 					updateMessage('Used 1 ether, restored 10MP');
-					console.log("Used 1 ether, restored 10MP, player magic: " +playerMP);
+					console.log("ether used Used 1 ether, restored 10MP, player magic: " +playerMP);
 					playerInventory.splice(index,1);
 					break;
 				}
-			}else{
+			console.log(index);
+			break;
+			}else if(index === -1){
 				updateMessage('None left...');
-				console.log('No '+arg+' available...');
+				console.log('invcheck else No '+arg+' available...');
+				//break;
 			}
 		}
 		itemReset();
 	}
 
-	$('a#item-back').on('click',function() {
-		itemReset();
-	});
+	
 }
 
 	
@@ -187,7 +185,7 @@ function enemyMove() {
 	playerHP -= enemyDmg;
 	winLogic();
 	updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
-	console.log("Enemy health: "+enemyHP);
+	console.log("enemymove Enemy health: "+enemyHP);
 	variableReset();
 	buttonInitialisers();
 }
