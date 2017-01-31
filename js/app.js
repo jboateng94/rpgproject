@@ -5,7 +5,7 @@ var playerHP = 100;
 var playerMP = 100;
 var playerDmg = 10;
 var checkPlayerGuard = false;
-var playerInventory = ['p','e'];
+var playerInventory = ['p','e','p','e','e'];
 
 
 var enemyHP = 100;
@@ -129,18 +129,52 @@ function playerItem() {
 	}
 
 	$('#potion').on('click', () =>{
-		for (var i in playerInventory) {
-			var index = playerInventory.indexOf(i);
-			// if(i === 'p'){
-			// 	playerHP += 10;
-			// 	playerInventory.splice(index,1)
-			// }else{
-			// 	updateMessage('No potions available...');
-			// 	console.log('No potions available...');
-			// }
-			console.log(i+" - "+index);
-		}
+		// for (var i of playerInventory) {
+		// 	var index = playerInventory.indexOf(i);
+		// 	if(i === 'p'){
+		// 		playerHP += 10;
+		// 		updateMessage('Used 1 potion, restored 10HP');
+		// 		console.log("Used 1 potion, restored 10HP, player health: " +playerHP)
+		// 		playerInventory.splice(index,1);
+		// 		break;
+		// 	}else{
+		// 		updateMessage('No potions available...');
+		// 		console.log('No potions available...');
+		// 	}
+		// }
+		inventoryCheck('p');
+		itemReset();
 	});
+
+	$('#ether').on('click', () =>{
+		inventoryCheck('e');
+		itemReset();
+	});
+
+	function inventoryCheck(arg) {
+		for (var i of playerInventory) {
+			var index = playerInventory.indexOf(i);
+			if(i === arg){
+				if(i === 'p'){
+					playerHP += 10;
+					updateMessage('Used 1 potion, restored 10HP');
+					console.log("Used 1 potion, restored 10HP, player health: " +playerHP);
+					playerInventory.splice(index,1);
+					break;
+				}else if(i === 'e'){
+					playerMP += 10;
+					updateMessage('Used 1 ether, restored 10MP');
+					console.log("Used 1 ether, restored 10MP, player magic: " +playerMP);
+				}	playerInventory.splice(index,1);
+				break;
+				
+			}else{
+				updateMessage('None left...');
+				console.log('No '+arg+' available...');
+			}
+		}
+		itemReset();
+	}
 
 	$('a#item-back').on('click',function() {
 		itemReset();
