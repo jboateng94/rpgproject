@@ -83,13 +83,20 @@ function playerMagic() {
 	var magicMenu = $('#magic-menu');
 	magicMenu.css('display','inline');
 
-	$('a#glitch-slap').on('click',function(){
+	function magicReset() {
+		updateMessage("Player health: "+playerHP+
+			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
+		console.log("Player health:"+playerHP);
+		magicMenu.css('display','none');
+		firstMenu.css('display','inline');
+	}
+
+	$('a#glitch-slap').on('click', () => {
 		playerDmg = 30;
 		playerMP  = playerMP-20;
 		enemyHP -= playerDmg;
 		winLogic();
 		magicReset();
-		
 		enemyMove();
 	});
 
@@ -103,18 +110,11 @@ function playerMagic() {
 	});
 
 	$('a#magic-back').on('click',function() {
-		magicMenu.css('display','none');
-		firstMenu.css('display','inline');
+		magicReset();
 	});
 }
 
-function magicReset() {
-	updateMessage("Player health: "+playerHP+
-		"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-	console.log("Player health:"+playerHP);
-	magicMenu.css('display','none');
-	firstMenu.css('display','inline');
-}
+
 
 function playerItem() {
 
@@ -122,6 +122,29 @@ function playerItem() {
 
 	var itemMenu = $('#item-menu');
 	itemMenu.css('display','inline');
+
+	function itemReset() {
+		itemMenu.css('display','none');
+		firstMenu.css('display','inline');
+	}
+
+	$('#potion').on('click', () =>{
+		for (var i in playerInventory) {
+			var index = playerInventory.indexOf(i);
+			// if(i === 'p'){
+			// 	playerHP += 10;
+			// 	playerInventory.splice(index,1)
+			// }else{
+			// 	updateMessage('No potions available...');
+			// 	console.log('No potions available...');
+			// }
+			console.log(i+" - "+index);
+		}
+	});
+
+	$('a#item-back').on('click',function() {
+		itemReset();
+	});
 }
 
 	
@@ -136,7 +159,7 @@ function enemyMove() {
 	playerHP -= enemyDmg;
 	winLogic();
 	updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
-	console.log("Player health:"+playerHP);
+	console.log("Enemy health: "+enemyHP);
 	variableReset();
 	buttonInitialisers();
 }
@@ -161,3 +184,8 @@ function endValues() {
 	enemyHP = 0;
 	enemyMP =0;
 }
+
+
+// change all vars to lets and consts (lets can change, consts can't)
+// anonymous functions use arrow syntax
+// 
