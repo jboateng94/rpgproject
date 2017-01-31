@@ -83,6 +83,25 @@ function playerMagic() {
 	var magicMenu = $('#magic-menu');
 	magicMenu.css('display','inline');
 
+	function magicButtonInitialisers() {
+		$('a#glitch-slap').on('click', () => {
+			spellCast('g');
+		});
+
+		$('a#ora').on('click', () => {
+			spellCast('o')
+		});
+
+		$('a#magic-back').on('click',function() {
+			magicReset();
+		});
+	}
+
+	function magicButtonTerminators() {
+		$('a#glitch-slap').off('click');
+		$('a#ora').off('click');
+	}
+
 	function magicReset() {
 		updateMessage("Player health: "+playerHP+
 			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
@@ -91,30 +110,46 @@ function playerMagic() {
 		firstMenu.css('display','inline');
 	}
 
-	$('a#glitch-slap').on('click', () => {
-		playerDmg = 30;
-		playerMP  = playerMP-20;
-		enemyHP -= playerDmg;
+	magicButtonInitialisers();
+
+	function spellCast(arg) {
+		magicButtonTerminators();
+
+		if(arg === 'g'){
+		
+			playerDmg = 30;
+			playerMP  = playerMP-20;
+			enemyHP -= playerDmg;
+			//dmgCheckReset();
+			
+			//magicButtonInitialisers();
+			
+		}else if(arg === 'o'){
+
+			playerDmg = 20;
+			playerMP = playerMP-10;
+			enemyHP -= playerDmg;
+			//dmgCheckReset();
+			
+					
+		}
 		winLogic();
 		magicReset();
 		enemyMove();
-	});
+		magicButtonInitialisers();	
+	}
 
-	$('a#ora').on('click',function(){
-		playerDmg = 20;
-		playerMP = playerMP-10;
-		enemyHP -= playerDmg;
-		winLogic();
-		magicReset();
-		enemyMove();
-	});
-
-	$('a#magic-back').on('click',function() {
-		magicReset();
-	});
+	// function dmgCheckReset() {
+	// 	
+	// 	winLogic();
+	// 	magicButtonInitialisers();
+	// 	magicReset();
+	// 	enemyMove();
+	// }
 }
 
 
+//var test = [0,1,2,3,2,5,8,2,9];
 
 function playerItem() {
 
@@ -123,19 +158,27 @@ function playerItem() {
 	var itemMenu = $('#item-menu');
 	itemMenu.css('display','inline');
 
-	$('#potion').on('click', () =>{
-		inventoryCheck('p');
-		itemReset();
-	});
 
-	$('#ether').on('click', () =>{
-		inventoryCheck('e');
-		itemReset();
-	});
+	function itemButtonInitialisers() {
+		$('#potion').on('click', () =>{
+			inventoryCheck('p');
+			itemReset();
+		});
 
-	$('a#item-back').on('click',function() {
-		itemReset();
-	});
+		$('#ether').on('click', () =>{
+			inventoryCheck('e');
+			itemReset();
+		});
+
+		$('a#item-back').on('click',function() {
+			itemReset();
+		});	
+	}
+
+	function itemButtonTerminators() {
+		$('#potion').off('click');
+		$('#ether').off('click');	
+	}
 
 	function itemReset() {
 		itemMenu.css('display','none');
@@ -143,24 +186,27 @@ function playerItem() {
 	}
 
 	function inventoryCheck(arg) {
+
+		itemButtonTerminators();
 		for (var i of playerInventory) {
+
 			var index = playerInventory.indexOf(i);
+
 			if(i === arg){
 				if(i === 'p'){
 					playerHP += 10;
 					updateMessage('Used 1 potion, restored 10HP');
 					console.log("potion use Used 1 potion, restored 10HP, player health: " +playerHP);
 					playerInventory.splice(index,1);
-					break;
+					enemyMove();
 				}if(i === 'e'){
 					playerMP += 10;
 					updateMessage('Used 1 ether, restored 10MP');
 					console.log("ether used Used 1 ether, restored 10MP, player magic: " +playerMP);
 					playerInventory.splice(index,1);
-					break;
+					enemyMove();
 				}
 			console.log(index);
-			break;
 			}else if(index === -1){
 				updateMessage('None left...');
 				console.log('invcheck else No '+arg+' available...');
@@ -169,8 +215,7 @@ function playerItem() {
 		}
 		itemReset();
 	}
-
-	
+	itemButtonInitialisers();	
 }
 
 	
@@ -184,7 +229,7 @@ function enemyMove() {
 	}
 	playerHP -= enemyDmg;
 	winLogic();
-	updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
+	updateMessage("Player health: "+playerHP+"	Player MP: "+playerMP+"	Enemy health: "+enemyHP);
 	console.log("enemymove Enemy health: "+enemyHP);
 	variableReset();
 	buttonInitialisers();
@@ -199,9 +244,10 @@ function winLogic() {
 		alert("You lose");
 		endValues();
 		// return true
-	}else{
-		// return false;
 	}
+	// else{
+	// 	return false;
+	// }
 }
 
 function endValues() {
