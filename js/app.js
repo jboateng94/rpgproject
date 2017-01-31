@@ -101,7 +101,10 @@ function playerMagic() {
 		enemyMove();
 	});
 
-	
+	$('a#magic-back').on('click',function() {
+		magicMenu.css('display','none');
+		firstMenu.css('display','inline');
+	});
 }
 
 	
