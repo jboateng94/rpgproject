@@ -37,8 +37,8 @@ $(".hover").mouseenter(function() {
 	audio.play();
 });
 
-$(".enter")..click(function() {
-	var enter 
+$(".enter").click(function() {
+	var enter = $("#audio9")[0];
 	enter.play();
 });
 
