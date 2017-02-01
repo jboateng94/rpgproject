@@ -233,7 +233,8 @@ function inventoryCheck(arg) {
 		if(playerInventoryEther.indexOf('e') === -1){
 			updateMessage('No ethers left...');
 		}else{
-			
+			var eth = $("#audio8")[0];
+			eth.play();
 			playerMP += 10;
 			updateMessage('Used 1 ether, restored 10MP');
 			console.log("ether used player magic: " +playerMP);
