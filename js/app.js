@@ -15,12 +15,23 @@ let enemyDmg = 5;
 
 let messageBox = $("textarea#messagebox");
 
-let fightTest = $( "#fight" );
-let guardTest = $( "#guard" );
-let magicTest = $( "#magic" );
-let itemTest = $( "#item" );
-
 let firstMenu = $('#first-menu');
+
+let fightTest = $( "#fight" );
+
+let guardTest = $( "#guard" );
+
+let magicTest = $( "#magic" );
+let magicMenu = $('#magic-menu');
+
+let itemTest = $( "#item" );
+let itemMenu = $('#item-menu');
+
+let enemyMoves = [enemyAttack,enemyItems,enemyMagic];
+
+
+magicButtonInitialisers();
+itemButtonInitialisers();
 
 //let playerMagicOptions = {"Glitch slap":20, "Oh damn":30};
 
@@ -61,7 +72,7 @@ function playerAttack(){
 	enemyHP -= playerDmg;
 	winLogic();
 	updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
-	console.log("player attack Enemy health:"+enemyHP);
+	console.log("playerAttack Enemy health:"+enemyHP);
 	enemyTurn();
 }
 
@@ -77,74 +88,60 @@ function playerGuard() {
 // and access spells, or go back to the main battle menu
 
 function playerMagic() {
-
-	buttonTerminators();
 	
 	firstMenu.css('display','none');
 
-	let magicMenu = $('#magic-menu');
 	magicMenu.css('display','inline');
+}
 
-	function magicButtonInitialisers() {
-		$('a#glitch-slap').on('click', () => {
-			spellCast('g');
-			magicReset();
-		});
+function magicReset() {
+	// updateMessage("Player health: "+playerHP+
+	// 	"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
+	console.log("magicReset Player health:"+playerHP);
+	magicMenu.css('display','none');
+	firstMenu.css('display','inline');
+	//buttonInitialisers();
+}
 
-		$('a#ora').on('click', () => {
-			spellCast('o');
-			magicReset();
-		});
-
-		$('a#magic-back').on('click', ()  => {
-			magicReset();
-		});
-	}
-
-	function magicButtonTerminators() {
-		$('a#glitch-slap').off('click');
-		$('a#ora').off('click');
-	}
-
-	function magicReset() {
-		// updateMessage("Player health: "+playerHP+
-		// 	"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-		console.log("magicReset Player health:"+playerHP);
-		magicMenu.css('display','none');
-		firstMenu.css('display','inline');
-		buttonInitialisers();
-	}
-
-
-	function spellCast(arg) {
-		magicButtonTerminators();
-		if(playerMP <= 0){
-			updateMessage("Can't cast, need MP");
-		}else{
-			if(arg === 'g'){
-				
-				playerDmg = 30;
-				playerMP  = playerMP-20;
-				enemyHP -= playerDmg;
-				winLogic();
-				enemyTurn()
-				//dmgCheckReset();
-				
-				//magicButtonInitialisers();
-				
-			}else if(arg === 'o'){
-
-				playerDmg = 20;
-				playerMP = playerMP-10;
-				enemyHP -= playerDmg;
-				winLogic();
-				enemyTurn();
-				//dmgCheckReset();		
-			}
+function spellCast(arg) {
+	//magicButtonTerminators();
+	if(playerMP <= 0){
+		updateMessage("Can't cast, need MP");
+	}else{
+		if(arg === 'g'){
+			console.log('glitch-slap')
+			playerDmg = 30;
+			playerMP  = playerMP-20;
+			enemyHP -= playerDmg;
+			winLogic();
+			enemyTurn()
+			
+		}else if(arg === 'o'){
+			console.log('ora');
+			playerDmg = 20;
+			playerMP = playerMP-10;
+			enemyHP -= playerDmg;
+			winLogic();
+			enemyTurn();
+			//dmgCheckReset();		
 		}
 	}
+}
 
-	magicButtonInitialisers();
+function magicButtonInitialisers() {
+	$('#magic-menu').on('click', '#glitch-slap', () => {
+		spellCast('g');
+		magicReset();
+	});
+
+	$('#magic-menu').on('click', '#ora', () => {
+		spellCast('o');
+		magicReset();
+	});
+
+	$('#magic-menu').on('click', '#magic-back',()  => {
+		magicReset();
+	});
 }
 
 
@@ -152,89 +149,81 @@ function playerMagic() {
 
 function playerItem() {
 
-	buttonTerminators();
-
 	firstMenu.css('display','none');
 
-	let itemMenu = $('#item-menu');
 	itemMenu.css('display','inline');
-
-
-	function itemButtonInitialisers() {
-		$('#potion').on('click', () => {
-			inventoryCheck('p');
-			itemReset();
-		});
-
-		$('#ether').on('click', () => {
-			inventoryCheck('e');
-			itemReset();
-		});
-
-		$('a#item-back').on('click',() => {
-			itemReset();
-		});	
-	}
-
-	function itemButtonTerminators() {
-		$('#potion').off('click');
-		$('#ether').off('click');	
-	}
-
-	function itemReset() {
-		itemMenu.css('display','none');
-		firstMenu.css('display','inline');
-		buttonInitialisers();
-	}
-
-	function inventoryCheck(arg) {
-
-		itemButtonTerminators();
-		for (let i of playerInventory) {
-
-			let index = playerInventory.indexOf(i);
-
-			if(i === arg){
-				if(i === 'p'){
-					playerHP += 20;
-					updateMessage('Used 1 potion, restored 10HP');
-					console.log("potion use Used 1 potion, restored 10HP, player health: " +playerHP);
-					playerInventory.splice(index,1);
-					enemyTurn();
-					break;
-				}if(i === 'e'){
-					playerMP += 10;
-					updateMessage('Used 1 ether, restored 10MP');
-					console.log("ether used Used 1 ether, restored 10MP, player magic: " +playerMP);
-					playerInventory.splice(index,1);
-					enemyTurn();
-					break;
-				}
-			console.log(playerInventory);
-			}else if(index === -1){
-				updateMessage('None left...');
-				console.log('invcheck else No '+arg+' available...');
-				//break;
-			}
-		}
-		itemReset();
-	}
-	itemButtonInitialisers();
 }
 
-let enemyMoves = [enemyMagic,enemyItems,enemyMagic];
+function itemButtonInitialisers() {
+	$('#potion').on('click', () => {
+		inventoryCheck('p');
+		itemReset();
+	});
+
+	$('#ether').on('click', () => {
+		inventoryCheck('e');
+		itemReset();
+	});
+
+	$('a#item-back').on('click',() => {
+		itemReset();
+	});	
+}
+
+function itemButtonTerminators() {
+	$('#potion').off('click');
+	$('#ether').off('click');	
+}
+
+function itemReset() {
+	itemMenu.css('display','none');
+	firstMenu.css('display','inline');
+	//buttonInitialisers();
+}
+
+function inventoryCheck(arg) {
+	
+	for (let i of playerInventory) {
+
+		let index = playerInventory.indexOf(i);
+
+		if(i === arg){
+			if(i === 'p'){
+				playerHP += 20;
+				updateMessage('Used 1 potion, restored 10HP');
+				console.log("potion use player health: " +playerHP);
+				playerInventory.splice(index,1);
+				itemButtonTerminators();
+				enemyTurn();
+				break;
+			}if(i === 'e'){
+				playerMP += 10;
+				updateMessage('Used 1 ether, restored 10MP');
+				console.log("ether used player magic: " +playerMP);
+				playerInventory.splice(index,1);
+				enemyTurn();
+				break;
+			}
+		console.log("Player inventory: "+playerInventory);
+		}else if(index === -1){
+			updateMessage('None left...');
+			console.log('invcheck else No '+arg+' available...');
+			//break;
+		}
+	}
+	itemReset();
+}
 
 function enemyTurn() {
 	buttonTerminators();
 
 	let move = randomizeForEnemy(enemyMoves);
 	move();
-	console.log(move);
 	
 	winLogic();
 
 	updateMessage("Player health: "+playerHP+"	Player MP: "+playerMP+"	Enemy health: "+enemyHP+" Enemy MP: "+enemyMP);
-	console.log("enemyTurn Enemy health: "+enemyHP+"	Player HP: "+playerHP);
+	console.log("enemyTurn Enemy health: "+enemyHP+"  Player HP: "+playerHP);
 
 	valueReset();
 	buttonInitialisers();
@@ -252,12 +241,19 @@ function enemyAttack() {
 
 function enemyMagic() {
 	console.log('enemyMagic');
-	if(checkPlayerGuard){
-		enemyDmg = Math.ceil(20 * 0.4);
+	if(enemyMP <= 0){
+		updateMessage()
+		enemyDmg = 0;
 	}else{
-		enemyDmg = 20;
+		if(checkPlayerGuard){
+			enemyDmg = Math.ceil(20 * 0.4);
+			enemyMP = enemyMP - 20;
+		}else{
+			enemyDmg = 20;
+			enemyMP = enemyMP - 20;
+		}
 	}
-	enemyMP = enemyMP - 20;
+	
 	return playerHP -= enemyDmg;
 }
 
