@@ -222,45 +222,59 @@ function playerItem() {
 	itemButtonInitialisers();
 }
 
-let enemyMoves = [enemyMagic,enemyItems];
+let enemyMoves = [enemyMagic,enemyItems,enemyMagic];
 
 function enemyTurn() {
 	buttonTerminators();
-	//put move here
-	playerHP -= enemyDmg;
+
+	let move = randomizeForEnemy(enemyMoves);
+	move();
+	console.log(move);
+	
 	winLogic();
+
 	updateMessage("Player health: "+playerHP+"	Player MP: "+playerMP+"	Enemy health: "+enemyHP+" Enemy MP: "+enemyMP);
-	console.log("enemyTurn Enemy health: "+enemyHP);
+	console.log("enemyTurn Enemy health: "+enemyHP+"	Player HP: "+playerHP);
+
 	valueReset();
 	buttonInitialisers();
 }
 
 function enemyAttack() {
+	console.log('enemyAttack');
 	if(checkPlayerGuard){
-		return Math.ceil(enemyDmg * 0.4);
+		enemyDmg = Math.ceil(enemyDmg * 0.4);
 	}else{
-		return 5;
+		enemyDmg = enemyDmg = 5;
 	}
+	return playerHP -= enemyDmg;
 }
 
 function enemyMagic() {
+	console.log('enemyMagic');
 	if(checkPlayerGuard){
-		enemyDmg = Math.ceil(50 * 0.4);
+		enemyDmg = Math.ceil(20 * 0.4);
 	}else{
-		return 50;
+		enemyDmg = 20;
 	}
+	enemyMP = enemyMP - 20;
+	return playerHP -= enemyDmg;
 }
 
 function enemyItems() {
-	let enemyInventory = [p,e,p,e];
+	console.log('enemyItems');
+	let enemyInventory = ['p','e','p','e'];
 	let randItem = randomizeForEnemy(enemyInventory);
 	if(randItem === 'p'){
 		enemyHP = enemyHP + 20;
-	}else if(){}
+		enemyInventory.splice(enemyInventory.indexOf(randItem),1);
+	}else if(randItem === 'e'){
+		enemyMP = enemyMP + 10;
+	}
 }
 
 function randomizeForEnemy(arg) {
-	return arg[Math.floor(Math.random() * arg.length)]
+	return arg[Math.floor(Math.random() * arg.length)];
 }
 
 function winLogic() {
