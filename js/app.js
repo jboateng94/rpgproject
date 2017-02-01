@@ -77,6 +77,8 @@ function playerGuard() {
 // and access spells, or go back to the main battle menu
 
 function playerMagic() {
+
+	buttonTerminators();
 	
 	firstMenu.css('display','none');
 
@@ -86,13 +88,15 @@ function playerMagic() {
 	function magicButtonInitialisers() {
 		$('a#glitch-slap').on('click', () => {
 			spellCast('g');
+			magicReset();
 		});
 
 		$('a#ora').on('click', () => {
-			spellCast('o')
+			spellCast('o');
+			magicReset();
 		});
 
-		$('a#magic-back').on('click',function() {
+		$('a#magic-back').on('click', ()  => {
 			magicReset();
 		});
 	}
@@ -105,39 +109,45 @@ function playerMagic() {
 	function magicReset() {
 		updateMessage("Player health: "+playerHP+
 			"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
-		console.log("magicResist Player health:"+playerHP);
+		console.log("magicReset Player health:"+playerHP);
 		magicMenu.css('display','none');
 		firstMenu.css('display','inline');
 	}
 
-	magicButtonInitialisers();
 
 	function spellCast(arg) {
 		magicButtonTerminators();
+		if(playerMP <= 0){
+			updateMessage("Can't cast, need MP");
+		}else{
+			if(arg === 'g'){
+				
+				playerDmg = 30;
+				playerMP  = playerMP-20;
+				enemyHP -= playerDmg;
+				winLogic();
+				enemyMove()
+				//dmgCheckReset();
+				
+				//magicButtonInitialisers();
+				
+			}else if(arg === 'o'){
 
-		if(arg === 'g'){
-		
-			playerDmg = 30;
-			playerMP  = playerMP-20;
-			enemyHP -= playerDmg;
-			//dmgCheckReset();
+				playerDmg = 20;
+				playerMP = playerMP-10;
+				enemyHP -= playerDmg;
+				winLogic();
+				enemyMove();
+				//dmgCheckReset();		
+			}
 			
-			//magicButtonInitialisers();
 			
-		}else if(arg === 'o'){
-
-			playerDmg = 20;
-			playerMP = playerMP-10;
-			enemyHP -= playerDmg;
-			//dmgCheckReset();
+			//enemyMove();
 			
-					
 		}
-		winLogic();
-		magicReset();
-		enemyMove();
-		magicButtonInitialisers();	
 	}
+
+	magicButtonInitialisers();
 
 	// function dmgCheckReset() {
 	// 	
@@ -153,6 +163,8 @@ function playerMagic() {
 
 function playerItem() {
 
+	buttonTerminators();
+
 	firstMenu.css('display','none');
 
 	var itemMenu = $('#item-menu');
@@ -160,17 +172,17 @@ function playerItem() {
 
 
 	function itemButtonInitialisers() {
-		$('#potion').on('click', () =>{
+		$('#potion').on('click', () => {
 			inventoryCheck('p');
 			itemReset();
 		});
 
-		$('#ether').on('click', () =>{
+		$('#ether').on('click', () => {
 			inventoryCheck('e');
 			itemReset();
 		});
 
-		$('a#item-back').on('click',function() {
+		$('a#item-back').on('click',() => {
 			itemReset();
 		});	
 	}
@@ -199,14 +211,16 @@ function playerItem() {
 					console.log("potion use Used 1 potion, restored 10HP, player health: " +playerHP);
 					playerInventory.splice(index,1);
 					enemyMove();
+					break;
 				}if(i === 'e'){
 					playerMP += 10;
 					updateMessage('Used 1 ether, restored 10MP');
 					console.log("ether used Used 1 ether, restored 10MP, player magic: " +playerMP);
 					playerInventory.splice(index,1);
 					enemyMove();
+					break;
 				}
-			console.log(index);
+			console.log(playerInventory);
 			}else if(index === -1){
 				updateMessage('None left...');
 				console.log('invcheck else No '+arg+' available...');
@@ -215,7 +229,7 @@ function playerItem() {
 		}
 		itemReset();
 	}
-	itemButtonInitialisers();	
+	itemButtonInitialisers();
 }
 
 	
@@ -230,7 +244,7 @@ function enemyMove() {
 	playerHP -= enemyDmg;
 	winLogic();
 	updateMessage("Player health: "+playerHP+"	Player MP: "+playerMP+"	Enemy health: "+enemyHP);
-	console.log("enemymove Enemy health: "+enemyHP);
+	console.log("enemyMove Enemy health: "+enemyHP);
 	variableReset();
 	buttonInitialisers();
 }
