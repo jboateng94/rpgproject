@@ -112,6 +112,7 @@ function playerMagic() {
 		console.log("magicReset Player health:"+playerHP);
 		magicMenu.css('display','none');
 		firstMenu.css('display','inline');
+		buttonInitialisers();
 	}
 
 
@@ -195,6 +196,7 @@ function playerItem() {
 	function itemReset() {
 		itemMenu.css('display','none');
 		firstMenu.css('display','inline');
+		buttonInitialisers();
 	}
 
 	function inventoryCheck(arg) {
@@ -206,7 +208,7 @@ function playerItem() {
 
 			if(i === arg){
 				if(i === 'p'){
-					playerHP += 10;
+					playerHP += 20;
 					updateMessage('Used 1 potion, restored 10HP');
 					console.log("potion use Used 1 potion, restored 10HP, player health: " +playerHP);
 					playerInventory.splice(index,1);
