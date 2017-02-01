@@ -155,7 +155,7 @@ function itemButtonInitialisers() {
 
 	$('#ether').on('click', () => {
 		inventoryCheck('e');
-		itemReset();
+		
 	});
 
 	$('a#item-back').on('click',() => {
@@ -178,7 +178,7 @@ function inventoryCheck(arg) {
 	if(arg === 'p'){
 		console.log("Potions: "+playerInventoryPotion);
 		console.log('potion index: '+playerInventoryPotion.indexOf('p'));
-		if(playerInventoryPotion.indexOf(arg) === -1){
+		if(playerInventoryPotion.indexOf('p') === -1){
 			updateMessage('No potions left...');
 		}else{
 			playerHP += 20;
@@ -190,12 +190,17 @@ function inventoryCheck(arg) {
 		}
 	}else if(arg === 'e'){
 		console.log("Ether: "+playerInventoryEther);
-
-		playerMP += 10;
-		updateMessage('Used 1 ether, restored 10MP');
-		console.log("ether used player magic: " +playerMP);
-		playerInventoryEther.pop();
-		enemyTurn();
+		console.log('ether index: '+playerInventoryEther.indexOf('e'));
+		if(playerInventoryEther.indexOf('e') === -1){
+			updateMessage('No ethers left...');
+		}else{
+			playerMP += 10;
+			updateMessage('Used 1 ether, restored 10MP');
+			console.log("ether used player magic: " +playerMP);
+			playerInventoryEther.pop();
+			itemReset();
+			enemyTurn();
+		}
 	}
 }
 
