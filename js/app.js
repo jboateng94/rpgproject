@@ -63,8 +63,23 @@ function valueReset() {
 	enemyDmg = 10;
 }
 
-updateMessage("Player health: "+playerHP+"	Enemy health: "+enemyHP);
+let imgPosition = displayEnemy.position();
+console.log(imgPosition);
 
+function loop() {
+    displayEnemy.animate({'top': imgPosition.top}, {
+        duration: 1000, 
+        complete: function() {
+            $('.bouncer').animate({top: imgPosition.top+100}, {
+                duration: 1000, 
+                complete: loop});
+        }});
+    
+    $('<div/>').text('exiting loop').appendTo($('.results'));
+}
+loop();
+
+updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 
 buttonInitialisers();
 
@@ -73,7 +88,7 @@ buttonInitialisers();
 function playerAttack(){
 	enemyHP -= playerDmg;
 	winLogic();
-	updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
+	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("playerAttack Enemy health:"+enemyHP);
 	enemyTurn();
 }
