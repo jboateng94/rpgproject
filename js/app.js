@@ -11,8 +11,8 @@ let playerInventoryEther = ['e','e','e'];
 
 let enemyHP = 400;
 let enemyMP = 50;
-
 let enemyDmg = 5;
+let enemyInventory = ['p','e','p','e'];
 
 let messageBox = $("textarea#messagebox");
 
@@ -151,7 +151,7 @@ function spellCast(arg) {
 			}else{
 				var slap = $("#audio3")[0];
 				slap.play();
-				
+
 				console.log('glitch-slap')
 				playerDmg = 30;
 				playerMP  = playerMP-20;
@@ -253,10 +253,12 @@ function enemyTurn() {
 	valueReset();
 	buttonInitialisers();
 }
-
+var block = $("#audio5")[0];
+	
 function enemyAttack() {
 	console.log('enemyAttack');
 	if(checkPlayerGuard){
+		block.play();
 		enemyDmg = Math.ceil(enemyDmg * 0.4);
 	}else{
 		enemyDmg = enemyDmg = 5;
@@ -267,10 +269,11 @@ function enemyAttack() {
 function enemyMagic() {
 	console.log('enemyMagic');
 	if(enemyMP <= 0){
-		updateMessage()
+		updateMessage('Enemy has no MP...')
 		enemyDmg = 0;
 	}else{
 		if(checkPlayerGuard){
+			block.play();
 			enemyDmg = Math.ceil(20 * 0.4);
 			enemyMP = enemyMP - 20;
 		}else{
@@ -284,14 +287,18 @@ function enemyMagic() {
 
 function enemyItems() {
 	console.log('enemyItems');
-	let enemyInventory = ['p','e','p','e'];
+	
 	let randItem = randomizeForEnemy(enemyInventory);
-	if(randItem === 'p'){
+	if(enemyInventory === 0){
+		updateMessage('Enemy has not items...');
+	}else if(randItem === 'p'){
 		enemyHP = enemyHP + 20;
 		enemyInventory.splice(enemyInventory.indexOf(randItem),1);
 	}else if(randItem === 'e'){
 		enemyMP = enemyMP + 10;
+		enemyInventory.splice(enemyInventory.indexOf(randItem),1);
 	}
+	
 }
 
 function randomizeForEnemy(arg) {
