@@ -32,6 +32,11 @@ let enemyMoves = [enemyAttack,enemyItems,enemyMagic];
 let displayEnemy = $('img#display-enemy');
 
 
+$(".hover").mouseenter(function() {
+	var audio = $("audio")[0];
+	audio.play();
+});
+
 magicButtonInitialisers();
 itemButtonInitialisers();
 
@@ -87,6 +92,8 @@ buttonInitialisers();
 //Player physical attack logic
 function playerAttack(){
 	enemyHP -= playerDmg;
+	var hit = $("audio")[1];
+	hit.play();
 	winLogic();
 	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("playerAttack Enemy health:"+enemyHP);
