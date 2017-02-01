@@ -158,6 +158,8 @@ function spellCast(arg) {
 				dmgResetNextTurn();
 			}
 		}else if(arg === 'o'){
+			var yes = $("#audio6")[0];
+			yes.play();
 			console.log('ora');
 			playerDmg = 20;
 			playerMP = playerMP-10;
@@ -216,6 +218,8 @@ function inventoryCheck(arg) {
 		if(playerInventoryPotion.indexOf('p') === -1){
 			updateMessage('No potions left...');
 		}else{
+			var pot = $("#audio7")[0];
+			pot.play();
 			playerHP += 20;
 			updateMessage('Used 1 potion, restored 10HP');
 			console.log("potion use player health: " +playerHP);
@@ -229,6 +233,7 @@ function inventoryCheck(arg) {
 		if(playerInventoryEther.indexOf('e') === -1){
 			updateMessage('No ethers left...');
 		}else{
+			
 			playerMP += 10;
 			updateMessage('Used 1 ether, restored 10MP');
 			console.log("ether used player magic: " +playerMP);
