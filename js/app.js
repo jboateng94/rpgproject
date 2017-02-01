@@ -92,7 +92,7 @@ buttonInitialisers();
 //Player physical attack logic
 function playerAttack(){
 	enemyHP -= playerDmg;
-	var hit = $("audio")[1];
+	var hit = $("#audio2")[0];
 	hit.play();
 	winLogic();
 	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
@@ -149,6 +149,9 @@ function spellCast(arg) {
 			if(playerMP - mpCost <= 0){
 				updateMessage('Not enough MP');
 			}else{
+				var slap = $("#audio3")[0];
+				slap.play();
+				
 				console.log('glitch-slap')
 				playerDmg = 30;
 				playerMP  = playerMP-20;
