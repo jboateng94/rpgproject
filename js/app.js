@@ -37,6 +37,11 @@ $(".hover").mouseenter(function() {
 	audio.play();
 });
 
+$(".enter")..click(function() {
+	var enter 
+	enter.play();
+});
+
 magicButtonInitialisers();
 itemButtonInitialisers();
 
@@ -71,18 +76,18 @@ function valueReset() {
 let imgPosition = displayEnemy.position();
 console.log(imgPosition);
 
-function loop() {
-    displayEnemy.animate({'top': imgPosition.top}, {
-        duration: 1000, 
-        complete: function() {
-            $('.bouncer').animate({top: imgPosition.top+100}, {
-                duration: 1000, 
-                complete: loop});
-        }});
+// function loop() {
+//     displayEnemy.animate({'top': imgPosition.top}, {
+//         duration: 1000, 
+//         complete: function() {
+//             $('.bouncer').animate({top: imgPosition.top+100}, {
+//                 duration: 1000, 
+//                 complete: loop});
+//         }});
     
-    $('<div/>').text('exiting loop').appendTo($('.results'));
-}
-loop();
+//     $('<div/>').text('exiting loop').appendTo($('.results'));
+// }
+// loop();
 
 updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 
