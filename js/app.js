@@ -29,6 +29,7 @@ let itemTest = $( "#item" );
 let itemMenu = $('#item-menu');
 
 let enemyMoves = [enemyAttack,enemyItems,enemyMagic];
+let displayEnemy = $('img#display-enemy');
 
 
 magicButtonInitialisers();
@@ -94,6 +95,22 @@ function playerMagic() {
 	magicMenu.css('display','inline');
 }
 
+function magicButtonInitialisers() {
+	$('#magic-menu').on('click', '#glitch-slap', () => {
+		spellCast('g');
+		
+	});
+
+	$('#magic-menu').on('click', '#ora', () => {
+		spellCast('o');
+	});
+
+	$('#magic-menu').on('click', '#magic-back',()  => {
+		magicReset();
+	});
+}
+
+
 function magicReset() {
 	console.log("magicReset Player health:"+playerHP);
 	magicMenu.css('display','none');
@@ -106,38 +123,31 @@ function spellCast(arg) {
 		updateMessage("Can't cast, need MP");
 	}else{
 		if(arg === 'g'){
-			console.log('glitch-slap')
-			playerDmg = 30;
-			playerMP  = playerMP-20;
-			enemyHP -= playerDmg;
-			winLogic();
-			enemyTurn()	
+			mpCost = 20;
+			if(playerMP - mpCost <= 0){
+				updateMessage('Not enough MP');
+			}else{
+				console.log('glitch-slap')
+				playerDmg = 30;
+				playerMP  = playerMP-20;
+				dmgResetNextTurn();
+			}
 		}else if(arg === 'o'){
 			console.log('ora');
 			playerDmg = 20;
 			playerMP = playerMP-10;
-			enemyHP -= playerDmg;
-			winLogic();
-			enemyTurn();	
+			dmgResetNextTurn();
 		}
 	}
 }
 
-function magicButtonInitialisers() {
-	$('#magic-menu').on('click', '#glitch-slap', () => {
-		spellCast('g');
-		magicReset();
-	});
-
-	$('#magic-menu').on('click', '#ora', () => {
-		spellCast('o');
-		magicReset();
-	});
-
-	$('#magic-menu').on('click', '#magic-back',()  => {
-		magicReset();
-	});
+function dmgResetNextTurn() {
+	enemyHP -= playerDmg;
+	winLogic();
+	magicReset();
+	enemyTurn();
 }
+
 
 
 //let test = [0,1,2,3,2,5,8,2,9];
@@ -212,7 +222,7 @@ function enemyTurn() {
 	
 	winLogic();
 
-	updateMessage("Player health: "+playerHP+"	Player MP: "+playerMP+"	Enemy health: "+enemyHP+" Enemy MP: "+enemyMP);
+	updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 	console.log("enemyTurn Enemy health: "+enemyHP+"  Player HP: "+playerHP);
 
 	valueReset();
