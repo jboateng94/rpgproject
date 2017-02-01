@@ -5,10 +5,11 @@ let playerHP = 250;
 let playerMP = 100;
 let playerDmg = 10;
 let checkPlayerGuard = false;
-let playerInventory = ['p','e','p','e','e','p'];
+let playerInventoryPotion = ['p','p','p'];
+let playerInventoryEther = ['e','e','e'];
 
 
-let enemyHP = 500;
+let enemyHP = 400;
 let enemyMP = 50;
 
 let enemyDmg = 5;
@@ -90,17 +91,13 @@ function playerGuard() {
 function playerMagic() {
 	
 	firstMenu.css('display','none');
-
 	magicMenu.css('display','inline');
 }
 
 function magicReset() {
-	// updateMessage("Player health: "+playerHP+
-	// 	"	Enemy health: "+enemyHP+'	Player MP: '+playerMP);
 	console.log("magicReset Player health:"+playerHP);
 	magicMenu.css('display','none');
 	firstMenu.css('display','inline');
-	//buttonInitialisers();
 }
 
 function spellCast(arg) {
@@ -114,16 +111,14 @@ function spellCast(arg) {
 			playerMP  = playerMP-20;
 			enemyHP -= playerDmg;
 			winLogic();
-			enemyTurn()
-			
+			enemyTurn()	
 		}else if(arg === 'o'){
 			console.log('ora');
 			playerDmg = 20;
 			playerMP = playerMP-10;
 			enemyHP -= playerDmg;
 			winLogic();
-			enemyTurn();
-			//dmgCheckReset();		
+			enemyTurn();	
 		}
 	}
 }
@@ -150,7 +145,6 @@ function magicButtonInitialisers() {
 function playerItem() {
 
 	firstMenu.css('display','none');
-
 	itemMenu.css('display','inline');
 }
 
@@ -178,7 +172,6 @@ function itemButtonTerminators() {
 function itemReset() {
 	itemMenu.css('display','none');
 	firstMenu.css('display','inline');
-	//buttonInitialisers();
 }
 
 function inventoryCheck(arg) {
@@ -186,33 +179,46 @@ function inventoryCheck(arg) {
 	for (let i of playerInventory) {
 
 		let index = playerInventory.indexOf(i);
-
-		if(i === arg){
-			if(i === 'p'){
-				playerHP += 20;
-				updateMessage('Used 1 potion, restored 10HP');
-				console.log("potion use player health: " +playerHP);
-				playerInventory.splice(index,1);
-				itemButtonTerminators();
-				enemyTurn();
-				break;
-			}if(i === 'e'){
-				playerMP += 10;
-				updateMessage('Used 1 ether, restored 10MP');
-				console.log("ether used player magic: " +playerMP);
-				playerInventory.splice(index,1);
-				enemyTurn();
-				break;
+		
+		if(index === 0){
+			// updateMessage("Looks like you've ran out...");
+			// console.log('invcheck else No '+arg+' available...');
+			
+		}else{
+			if(i === arg){
+				if(i === 'p'){
+					playerHP += 20;
+					updateMessage('Used 1 potion, restored 10HP');
+					console.log("potion use player health: " +playerHP);
+					playerInventory.splice(index,1);
+					itemReset();
+					enemyTurn();
+					break;
+				}if(i === 'e'){
+					playerMP += 10;
+					updateMessage('Used 1 ether, restored 10MP');
+					console.log("ether used player magic: " +playerMP);
+					playerInventory.splice(index,1);
+					enemyTurn();
+					break;
+				}
+			console.log("Player inventory: "+playerInventory);
 			}
-		console.log("Player inventory: "+playerInventory);
-		}else if(index === -1){
-			updateMessage('None left...');
-			console.log('invcheck else No '+arg+' available...');
-			//break;
 		}
+		console.log('indexes: '+getAllIndexes(playerInventory, arg));
 	}
-	itemReset();
+	
 }
+
+function getAllIndexes(arr, val) {
+    var indexes = [], i = -1;
+    while ((i = arr.indexOf(val, i+1)) != -1){
+        indexes.push(i);
+    }
+    return indexes;
+}
+
+var indexes = getAllIndexes(playerInventory, 'p');
 
 function enemyTurn() {
 	buttonTerminators();
