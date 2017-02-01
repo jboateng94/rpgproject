@@ -274,17 +274,19 @@ function enemyAttack() {
 
 function enemyMagic() {
 	console.log('enemyMagic');
-	if(enemyMP <= 0){
+	let mpCost = 20;
+	if(enemyMP - mpCost < 0){
 		updateMessage('Enemy has no MP...')
 		enemyDmg = 0;
+		return playerHP -= enemyDmg;
 	}else{
 		if(checkPlayerGuard){
 			block.play();
-			enemyDmg = Math.ceil(20 * 0.4);
-			enemyMP = enemyMP - 20;
+			enemyDmg = Math.ceil(mpCost * 0.4);
+			enemyMP = enemyMP - mpCost;
 		}else{
-			enemyDmg = 20;
-			enemyMP = enemyMP - 20;
+			enemyDmg = mpCost;
+			enemyMP = enemyMP - mpCost;
 		}
 	}
 	
