@@ -29,7 +29,7 @@ let itemTest = $( "#item" );
 let itemMenu = $('#item-menu');
 
 let enemyMoves = [enemyAttack,enemyItems,enemyMagic];
-let displayEnemy = $('img#display-enemy');
+
 
 
 $(".hover").mouseenter(function() {
@@ -73,10 +73,18 @@ function valueReset() {
 	enemyDmg = 10;
 }
 
+let displayEnemy = $('img#display-enemy');
 let imgPosition = displayEnemy.offset();
 console.log(imgPosition);
 
-
+$.fn.extend({
+    animateCss: function (animationName) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function() {
+            $(this).removeClass('animated ' + animationName);
+        });
+    }
+});
 
 updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 
@@ -88,6 +96,7 @@ function playerAttack(){
 	enemyHP -= playerDmg;
 	var hit = $("#audio2")[0];
 	hit.play();
+	displayEnemy.animateCss('shake');
 	winLogic();
 	console.log("playerAttack Enemy health:"+enemyHP);
 	enemyTurn();
