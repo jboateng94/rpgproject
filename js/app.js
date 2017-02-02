@@ -9,7 +9,7 @@ let playerInventoryPotion = ['p','p','p'];
 let playerInventoryEther = ['e','e','e'];
 
 
-let enemyHP = 400;
+let enemyHP = 40;
 let enemyMP = 50;
 let enemyDmg = 5;
 let enemyInventory = ['p','e','p','e'];
@@ -262,7 +262,7 @@ function enemyTurn() {
 	if(move === enemyItems && checkPlayerGuard){
 		updateMessage('You tried to guard, but the enemy used an item.');
 	}
-
+	winLogic();
 	valueReset();
 	buttonInitialisers();
 }
@@ -321,12 +321,15 @@ function randomizeForEnemy(arg) {
 
 function winLogic() {
 	if(enemyHP <= 0){
-		alert("You win!");
+		displayEnemy.animateCss('fadeOut');
+		updateMessage("You win! Please refresh the page");
 		endValues();
+		buttonTerminators();
 		// return true;
 	}else if(playerHP <= 0){
-		alert("You lose");
+		updateMessage("You lose");
 		endValues();
+		buttonTerminators();
 		// return true
 	}
 	// else{
