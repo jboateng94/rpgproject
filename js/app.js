@@ -99,7 +99,6 @@ function playerAttack(){
 	hit.play();
 	displayEnemy.animateCss('shake');
 	winLogic();
-	console.log("playerAttack Enemy health:"+enemyHP);
 	enemyTurn();
 }
 
