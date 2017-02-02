@@ -89,7 +89,6 @@ function playerAttack(){
 	var hit = $("#audio2")[0];
 	hit.play();
 	winLogic();
-	//updateMessage("Enemy health: "+enemyHP + "   Player health: "+playerHP);
 	console.log("playerAttack Enemy health:"+enemyHP);
 	enemyTurn();
 }
