@@ -31,12 +31,7 @@ The game is built on the foundation framework and style (only slightly) with SAS
 
 
 ##Tools used:
-Foundation by ZURB
-HTML
-SASS
-Javascript
-GarageBand
-Heroku
+Foundation by ZURB, HTML, SASS, Javascript, GarageBand and Heroku
 
 ##Credits:
 https://www.youtube.com/watch?v=W2fFwcZJ4f4
