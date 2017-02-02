@@ -9,7 +9,7 @@ let playerInventoryPotion = ['p','p','p'];
 let playerInventoryEther = ['e','e','e'];
 
 
-let enemyHP = 400;
+let enemyHP = 4;
 let enemyMP = 50;
 let enemyDmg = 5;
 let enemyInventory = ['p','e','p','e'];
@@ -159,7 +159,7 @@ function spellCast(arg) {
 			}else{
 				var slap = $("#audio3")[0];
 				slap.play();
-
+				displayEnemy.animateCss('swing');
 				console.log('glitch-slap')
 				playerDmg = 30;
 				playerMP  = playerMP-20;
@@ -328,17 +328,13 @@ function randomizeForEnemy(arg) {
 function winLogic() {
 	if(enemyHP <= 0){
 
-		
-		
 		setTimeout(displayEnemy.animateCss('fadeOut'), 3000);
-		// displayEnemy.addClass('animated fadeOut infinite');
 		updateMessage("You win! Please refresh to play again");
-		
+		var win = $("#audio11")[0];
+		win.play();
 		winEndValues();
 	}else if(playerHP <= 0){
-		buttonTerminators();
-		magicButtonTerminators();
-		itemButtonTerminators();
+		
 		updateMessage("You lose...please refersh to try again");
 		var lose = $("#audio10")[0];
 		lose.play();
