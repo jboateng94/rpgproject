@@ -73,21 +73,10 @@ function valueReset() {
 	enemyDmg = 10;
 }
 
-let imgPosition = displayEnemy.position();
+let imgPosition = displayEnemy.offset();
 console.log(imgPosition);
 
-// function loop() {
-//     displayEnemy.animate({'top': imgPosition.top}, {
-//         duration: 1000, 
-//         complete: function() {
-//             $('.bouncer').animate({top: imgPosition.top+100}, {
-//                 duration: 1000, 
-//                 complete: loop});
-//         }});
-    
-//     $('<div/>').text('exiting loop').appendTo($('.results'));
-// }
-// loop();
+
 
 updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 
@@ -256,10 +245,15 @@ function enemyTurn() {
 	let move = randomizeForEnemy(enemyMoves);
 	move();
 	
+
 	winLogic();
 
 	updateMessage("Player health: "+playerHP+"  Player MP: "+playerMP+"	 Enemy health: "+enemyHP+"  Enemy MP: "+enemyMP);
 	console.log("enemyTurn Enemy health: "+enemyHP+"  Player HP: "+playerHP);
+
+	if(move === enemyItems && checkPlayerGuard){
+		updateMessage('You tried to guard, but the enemy used an item.');
+	}
 
 	valueReset();
 	buttonInitialisers();
@@ -311,7 +305,6 @@ function enemyItems() {
 		enemyMP = enemyMP + 10;
 		enemyInventory.splice(enemyInventory.indexOf(randItem),1);
 	}
-	
 }
 
 function randomizeForEnemy(arg) {
