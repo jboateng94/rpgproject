@@ -9,7 +9,7 @@ let playerInventoryPotion = ['p','p','p'];
 let playerInventoryEther = ['e','e','e'];
 
 
-let enemyHP = 40;
+let enemyHP = 4;
 let enemyMP = 50;
 let enemyDmg = 5;
 let enemyInventory = ['p','e','p','e'];
@@ -29,6 +29,7 @@ let itemTest = $( "#item" );
 let itemMenu = $('#item-menu');
 
 let enemyMoves = [enemyAttack,enemyItems,enemyMagic];
+let displayEnemy = $('img#display-enemy');
 
 
 
@@ -73,9 +74,7 @@ function valueReset() {
 	enemyDmg = 10;
 }
 
-let displayEnemy = $('img#display-enemy');
-let imgPosition = displayEnemy.offset();
-console.log(imgPosition);
+
 
 $.fn.extend({
     animateCss: function (animationName) {
@@ -133,6 +132,11 @@ function magicButtonInitialisers() {
 		magicReset();
 	});
 }
+
+function magicButtonTerminators(){
+	$('#magic-menu').off('click')
+}
+function itemButtonTerminators(){}
 
 
 function magicReset() {
@@ -321,27 +325,48 @@ function randomizeForEnemy(arg) {
 
 function winLogic() {
 	if(enemyHP <= 0){
-		displayEnemy.animateCss('fadeOut');
-		updateMessage("You win! Please refresh the page");
-		endValues();
-		buttonTerminators();
-		// return true;
+
+		
+		
+		setTimeout(displayEnemy.animateCss('fadeOut'), 3000);
+		// displayEnemy.addClass('animated fadeOut infinite');
+		updateMessage("You win! Please refresh to play again");
+		
+		winEndValues();
 	}else if(playerHP <= 0){
-		updateMessage("You lose");
-		endValues();
 		buttonTerminators();
-		// return true
+		magicButtonTerminators();
+		itemButtonTerminators();
+		updateMessage("You lose...please refersh to try again");
+		var lose = $("#audio10")[0];
+		lose.play();
+		loseEndValues();
 	}
-	// else{
-	// 	return false;
-	// }
+
 }
 
-function endValues() {
-	playerHP = 0;
+function terminateAllButtons() {
+	buttonTerminators();
+	magicButtonTerminators();
+	itemButtonTerminators();
+}
+
+function winEndValues() {
 	playerMP = 0;
 	enemyHP = 0;
 	enemyMP =0;
+	enemyInventory = [];
+
+	terminateAllButtons();
+}
+
+function loseEndValues() {
+	
+	playerHP = 0;
+	playerMP = 0;
+	enemyMP =0;
+
+	terminateAllButtons();
 }
 
 
