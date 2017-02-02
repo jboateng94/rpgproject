@@ -9,7 +9,7 @@ let playerInventoryPotion = ['p','p','p'];
 let playerInventoryEther = ['e','e','e'];
 
 
-let enemyHP = 4;
+let enemyHP = 400;
 let enemyMP = 50;
 let enemyDmg = 5;
 let enemyInventory = ['p','e','p','e'];
